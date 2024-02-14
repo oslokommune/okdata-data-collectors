@@ -20,6 +20,7 @@ provider:
     role:
       permissionsBoundary: "arn:aws:iam::${aws:accountId}:policy/oslokommune/oslokommune-boundary"
       managedPolicies:
+        - 'arn:aws:iam::${aws:accountId}:policy/okdata-data-collectors-policy'
         - 'arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess'
   tags:
     GIT_REV: ${git:branch}:${git:sha1}
@@ -30,10 +31,23 @@ provider:
     VERSION: ${self:custom.version}
     SERVICE_NAME: ${self:service}
     OKDATA_ENVIRONMENT: ${self:custom.okdataEnvironment.${self:provider.stage}, self:custom.okdataEnvironment.dev}
+    OKDATA_CLIENT_ID: ${self:service}
+    OKDATA_CLIENT_SECRET: ${ssm:/dataplatform/okdata-data-collectors/keycloak-client-secret}
 
 package:
   patterns:
     - '!**/*'
+    - better_uptime/*.py
+    - common/*.py
+
+functions:
+  collect-better-uptime-monitors:
+    handler: better_uptime.handler.collect_monitors
+    events:
+      - schedule: cron(0 2 * * ? *)
+    timeout: 60
+    environment:
+      UPTIME_DATASET_ID: oppetid-tjenester-i-origo
 
 plugins:
   - serverless-better-credentials # must be first
