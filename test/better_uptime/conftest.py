@@ -3,7 +3,7 @@ import re
 import pytest
 from unittest.mock import patch
 
-from common import ssm
+from okdata.aws import ssm
 
 
 @pytest.fixture(autouse=True)

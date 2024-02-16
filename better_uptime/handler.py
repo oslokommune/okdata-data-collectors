@@ -4,12 +4,11 @@ import logging
 
 from aiohttp import ClientSession
 from aws_xray_sdk.core import patch_all, xray_recorder
-
+from okdata.aws import ssm
 from okdata.aws.logging import logging_wrapper
 
 from better_uptime.client import BetterUptimeClient
-
-from common import dataplatform, ssm, util
+from common import dataplatform, util
 
 patch_all()
 logging.basicConfig()
