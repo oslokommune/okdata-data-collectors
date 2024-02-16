@@ -2,7 +2,6 @@ import asyncio
 import csv
 import logging
 
-from aiohttp import ClientSession
 from aws_xray_sdk.core import patch_all, xray_recorder
 from okdata.aws import ssm
 from okdata.aws.logging import logging_wrapper
@@ -37,17 +36,13 @@ OUTPUT_CSV_FIELD_NAMES = [
 async def fetch_all_monitors():
     logger.info("Fetching monitors from Better Uptime")
     access_token = ssm.get_secret("/dataplatform/betteruptime/api-token")
-    bu_client = BetterUptimeClient()
 
-    async with ClientSession(
-        raise_for_status=True,
-        headers={"Authorization": f"Bearer {access_token}"},
-    ) as session:
+    async with BetterUptimeClient(access_token=access_token) as bu:
         monitors, monitor_groups = await asyncio.gather(
-            *[bu_client.monitors(session), bu_client.monitor_groups(session)]
+            *[bu.monitors(), bu.monitor_groups()]
         )
         monitor_slas = await asyncio.gather(
-            *[bu_client.sla(session, monitor_id=monitor["id"]) for monitor in monitors]
+            *[bu.sla(monitor_id=monitor["id"]) for monitor in monitors]
         )
 
     logger.info(
