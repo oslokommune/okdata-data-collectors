@@ -58,7 +58,9 @@ multidict==6.0.5
 okdata-aws==2.1.0
     # via okdata-data-collectors (setup.py)
 okdata-sdk==3.1.0
-    # via okdata-aws
+    # via
+    #   okdata-aws
+    #   okdata-data-collectors (setup.py)
 packaging==23.2
     # via deprecation
 pyasn1==0.5.1
@@ -84,6 +86,7 @@ referencing==0.33.0
 requests==2.31.0
     # via
     #   okdata-aws
+    #   okdata-data-collectors (setup.py)
     #   okdata-sdk
     #   python-keycloak
     #   requests-toolbelt
