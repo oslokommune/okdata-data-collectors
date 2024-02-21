@@ -2,6 +2,11 @@
 
 Data collector jobs for the Origo dataplatform.
 
+The following sources are currently implemented:
+
+- `agresso`: Economy data from Agresso.
+- `better_uptime`: Service uptime data from Better Stack.
+
 ## Setup
 
 ```sh

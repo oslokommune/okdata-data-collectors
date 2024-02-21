@@ -37,6 +37,8 @@ provider:
 package:
   patterns:
     - '!**/*'
+    - agresso/*.py
+    - agresso/data/**
     - better_uptime/*.py
     - common/*.py
 
@@ -48,6 +50,14 @@ functions:
     timeout: 60
     environment:
       UPTIME_DATASET_ID: oppetid-tjenester-i-origo
+  collect-agresso:
+    handler: agresso.handlers.import_datasets
+    events:
+      - schedule: cron(0 2 * * ? *)
+    timeout: 600
+    environment:
+      AGRESSO_BASE_URL: "https://okonomi-query-engine.api.oslo.kommune.no"
+      AGRESSO_PDF_BASE_URL: "https://origo.oslo.systems/agresso-pdf/voucher"
 
 plugins:
   - serverless-better-credentials # must be first

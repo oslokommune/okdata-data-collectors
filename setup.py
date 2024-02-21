@@ -13,6 +13,13 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/oslokommune/okdata-data-collectors",
     packages=find_packages(),
-    install_requires=["aws-xray-sdk", "boto3", "okdata-aws>=2.1,<3", "aiohttp>=3.9,<4"],
+    install_requires=[
+        "aiohttp>=3.9,<4",
+        "aws-xray-sdk",
+        "boto3",
+        "okdata-aws>=2.1,<3",
+        "okdata-sdk>=3.1,<4",
+        "requests",
+    ],
     python_requires=">=3.11",
 )
