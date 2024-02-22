@@ -32,6 +32,8 @@ charset-normalizer==3.3.2
     # via requests
 deprecation==2.1.0
     # via python-keycloak
+disruptive==1.6.5
+    # via okdata-data-collectors (setup.py)
 ecdsa==0.18.0
     # via python-jose
 frozenlist==1.4.1
@@ -70,7 +72,9 @@ pyasn1==0.5.1
 pydantic==1.10.14
     # via okdata-aws
 pyjwt==2.8.0
-    # via okdata-sdk
+    # via
+    #   disruptive
+    #   okdata-sdk
 python-dateutil==2.8.2
     # via botocore
 python-jose==3.3.0
@@ -85,6 +89,7 @@ referencing==0.33.0
     #   jsonschema-specifications
 requests==2.31.0
     # via
+    #   disruptive
     #   okdata-aws
     #   okdata-data-collectors (setup.py)
     #   okdata-sdk
