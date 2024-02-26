@@ -41,6 +41,7 @@ package:
     - agresso/data/**
     - better_uptime/*.py
     - common/*.py
+    - okdata_disruptive/*.py
 
 functions:
   collect-better-uptime-monitors:
@@ -58,6 +59,14 @@ functions:
     environment:
       AGRESSO_BASE_URL: "https://okonomi-query-engine.api.oslo.kommune.no"
       AGRESSO_PDF_BASE_URL: "https://origo.oslo.systems/agresso-pdf/voucher"
+  collect-disruptive:
+    handler: okdata_disruptive.handlers.import_data
+    events:
+      - schedule: cron(0 2 * * ? *)
+    timeout: 120
+    environment:
+      DISRUPTIVE_SERVICE_ACCOUNT_EMAIL: ${ssm:/dataplatform/disruptive/service-account-email}
+      DISRUPTIVE_SERVICE_ACCOUNT_KEY_ID: ${ssm:/dataplatform/disruptive/service-account-key-id}
 
 plugins:
   - serverless-better-credentials # must be first
