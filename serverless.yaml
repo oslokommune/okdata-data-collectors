@@ -32,7 +32,6 @@ provider:
     SERVICE_NAME: ${self:service}
     OKDATA_ENVIRONMENT: ${self:custom.okdataEnvironment.${self:provider.stage}, self:custom.okdataEnvironment.dev}
     OKDATA_CLIENT_ID: ${self:service}
-    OKDATA_CLIENT_SECRET: ${ssm:/dataplatform/okdata-data-collectors/keycloak-client-secret}
 
 package:
   patterns:
