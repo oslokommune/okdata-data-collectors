@@ -30,7 +30,7 @@ def upload_dataset(dataset_id, filename):
         version = dataset.get_latest_version(dataset_id)["version"]
     except HTTPError as e:
         if e.response.status_code == 404:
-            print(f"Dataset '{dataset_id}' not found; skipping import")
+            logger.error(f"Dataset '{dataset_id}' not found; skipping import")
             return
         raise
 

@@ -40,9 +40,17 @@ package:
     - agresso/data/**
     - better_uptime/*.py
     - common/*.py
+    - measurements/*.py
     - okdata_disruptive/*.py
 
 functions:
+  collect-measurements:
+    handler: measurements.handler.import_data
+    events:
+      - schedule: cron(0 2 * * ? *)
+    timeout: 60
+    environment:
+      OKR_TRACKER_API_BASE_URL: ${ssm:/dataplatform/okr-tracker/api-url}
   collect-better-uptime-monitors:
     handler: better_uptime.handler.collect_monitors
     events:
