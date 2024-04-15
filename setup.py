@@ -19,7 +19,7 @@ setup(
         "boto3",
         "disruptive",
         "okdata-aws>=2.1,<3",
-        "okdata-sdk>=3.1,<4",
+        "okdata-sdk>=3.1.1,<4",
         "requests",
     ],
     python_requires=">=3.11",
