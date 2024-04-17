@@ -17,6 +17,18 @@ logger.setLevel(logging.INFO)
 MEASUREMENTS = {
     "fdeYObXg1OpTh1XxXPJ4": "dataspeilet-antall-malinger-i-origo",
     "iRznHuvBqx2ketpA8keT": "dataspeilet-etterlevelse-av-oppdateringshyppighet",
+    "j8go8Qn4kxh5K8hYj28K": "apen-by-bookede-kulturtimer",
+    "cUrgFSsuhFfjV09JAjDs": "apen-by-gjennomforte-kulturtimer",
+    "WLUA8Ww2Ln77Wzw1iKX2": "apen-by-frigjort-tid-sum",
+    "EXAlzduBQAKeU1iQlwOJ": "booking-antall-behandlede-bookinger",
+    "xtqPBCF3AFUVTcbZnGZy": "booking-antall-reservasjoner",
+    "4vLKHlxRpHmqqraKqfOa": "booking-antall-tilgjengelige-rom",
+    "5pcd00VtcF4uFmrJFlce": "booking-antall-tilgjengelige-steder",
+    "awh5Hjb0WDCdiKFIPl6g": "booking-antall-steder-med-aktivitet",
+    "XyVOGnUSxxG0Hy6kJSn8": "oslonokkelen-merapne-dorapninger",
+    "EwLUVHjX35kg0235RBSP": "oslonokkelen-brukerprofiler",
+    "tjVb3I8rMpPc6TGWrvDO": "oslonokkelen-steder-i-produksjon",
+    "E2q8pJVxLwN0AtnE2Yu4": "oslonokkelen-antall-steder-med-booking-integrasjon",
 }
 
 
