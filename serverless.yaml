@@ -4,7 +4,11 @@ service: okdata-data-collectors
 
 provider:
   name: aws
-  runtime: python3.11
+  ecr:
+    images:
+      okdata-data-collectors:
+        path: ./
+        platform: linux/amd64
   memorySize: 1024
   region: eu-west-1
   stage: ${opt:stage, 'dev'}
@@ -45,21 +49,30 @@ package:
 
 functions:
   collect-measurements:
-    handler: measurements.handler.import_data
+    image:
+      name: okdata-data-collectors
+      command:
+        - measurements.handler.import_data
     events:
       - schedule: cron(0 2 * * ? *)
     timeout: 60
     environment:
       OKR_TRACKER_API_BASE_URL: ${ssm:/dataplatform/okr-tracker/api-url}
   collect-better-uptime-monitors:
-    handler: better_uptime.handler.collect_monitors
+    image:
+      name: okdata-data-collectors
+      command:
+        - better_uptime.handler.collect_monitors
     events:
       - schedule: cron(0 2 * * ? *)
     timeout: 60
     environment:
       UPTIME_DATASET_ID: oppetid-tjenester-i-origo
   collect-agresso:
-    handler: agresso.handlers.import_datasets
+    image:
+      name: okdata-data-collectors
+      command:
+        - agresso.handlers.import_datasets
     events:
       - schedule: cron(0 2 * * ? *)
     timeout: 600
@@ -67,7 +80,10 @@ functions:
       AGRESSO_BASE_URL: "https://okonomi-query-engine.api.oslo.kommune.no"
       AGRESSO_PDF_BASE_URL: "https://origo.oslo.systems/agresso-pdf/voucher"
   collect-disruptive:
-    handler: okdata_disruptive.handlers.import_data
+    image:
+      name: okdata-data-collectors
+      command:
+        - okdata_disruptive.handlers.import_data
     events:
       - schedule: cron(0 2 * * ? *)
     timeout: 120
@@ -79,7 +95,6 @@ plugins:
   - serverless-better-credentials # must be first
   - serverless-plugin-git-variables
   - serverless-prune-plugin
-  - serverless-python-requirements
 
 resources:
   Description: |
@@ -88,9 +103,6 @@ resources:
 
 custom:
   version: 0.1.0
-  pythonRequirements:
-    dockerizePip: non-linux
-    usePoetry: false
   prune:
     automatic: true
     number: 3
