@@ -1,4 +1,5 @@
 import json
+import logging
 from datetime import datetime
 
 from aws_xray_sdk.core import patch_all, xray_recorder
@@ -16,8 +17,15 @@ from common.dataplatform import upload_dataset
 
 patch_all()
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 
 def import_dataset(dataset_id, data):
+    if not data:
+        logger.info(f"Skipping empty dataset {dataset_id}")
+        return
+
     with open(f"/tmp/{dataset_id}.json", "w") as tmpfile:
         tmpfile.write(json.dumps(data))
         tmpfile.seek(0)

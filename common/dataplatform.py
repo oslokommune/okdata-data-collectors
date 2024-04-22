@@ -8,6 +8,7 @@ from okdata.sdk.data.upload import Upload
 from requests.exceptions import HTTPError
 
 logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 @cache
