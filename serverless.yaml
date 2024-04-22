@@ -46,6 +46,7 @@ package:
     - common/*.py
     - measurements/*.py
     - okdata_disruptive/*.py
+    - ssb/*.py
 
 functions:
   collect-measurements:
@@ -90,6 +91,16 @@ functions:
     environment:
       DISRUPTIVE_SERVICE_ACCOUNT_EMAIL: ${ssm:/dataplatform/disruptive/service-account-email}
       DISRUPTIVE_SERVICE_ACCOUNT_KEY_ID: ${ssm:/dataplatform/disruptive/service-account-key-id}
+  collect-ssb:
+    image:
+      name: okdata-data-collectors
+      command:
+        - ssb.handlers.import_datasets
+    events:
+      - schedule: cron(0 2 * * ? *)
+    timeout: 60
+    environment:
+      SSB_BASE_URL: "https://data.ssb.no/api/v0"
 
 plugins:
   - serverless-better-credentials # must be first
