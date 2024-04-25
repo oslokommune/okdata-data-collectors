@@ -3,6 +3,8 @@ from agresso.service_helpers import (
     _matches_filter,
     enrich_results,
     filter_results,
+    remove_columns,
+    rename_columns,
     simple_enricher,
 )
 
@@ -37,3 +39,27 @@ def test_simple_enricher():
     e = simple_enricher("a", "b", lambda x: x + "y")
     assert e({"a": "", "c": "x"}) == {"a": "", "b": "", "c": "x"}
     assert e({"a": "x"}) == {"a": "x", "b": "xy"}
+
+
+def test_rename_columns():
+    assert rename_columns([], {}) == []
+    assert rename_columns([], {"aa": "a"}) == []
+    assert rename_columns([{"a": 1, "b": 2}, {"a": 3, "b": 4}], {}) == [
+        {"a": 1, "b": 2},
+        {"a": 3, "b": 4},
+    ]
+    assert rename_columns(
+        [{"a": 1, "b": 2, "c": 3}, {"a": 4, "b": 5, "c": 6}], {"aa": "a", "bb": "b"}
+    ) == [{"aa": 1, "bb": 2, "c": 3}, {"aa": 4, "bb": 5, "c": 6}]
+
+
+def test_remove_columns():
+    assert remove_columns([], {}) == []
+    assert remove_columns([], ["a"]) == []
+    assert remove_columns([{"a": 1, "b": 2}, {"a": 3, "b": 4}], {}) == [
+        {"a": 1, "b": 2},
+        {"a": 3, "b": 4},
+    ]
+    assert remove_columns(
+        [{"a": 1, "b": 2, "c": 3}, {"a": 4, "b": 5, "c": 6}], ["a", "b"]
+    ) == [{"c": 3}, {"c": 6}]

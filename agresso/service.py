@@ -1,7 +1,13 @@
 import functools
 
 from agresso.client import get_results, get_results_for_year, get_term_description
-from agresso.service_helpers import enrich_results, filter_results, simple_enricher
+from agresso.service_helpers import (
+    enrich_results,
+    filter_results,
+    remove_columns,
+    rename_columns,
+    simple_enricher,
+)
 from common.util import getenv
 
 
@@ -46,23 +52,44 @@ def get_general_ledger(year):
         )
         return row
 
-    return enrich_results(
-        filter_results(
-            get_results_for_year("81656", year, skip_future=True),
+    return remove_columns(
+        rename_columns(
+            enrich_results(
+                filter_results(
+                    get_results_for_year("81656", year, skip_future=True),
+                    {
+                        # Irrelevant rows
+                        "_recno": "^1$",
+                        # Balance accounts
+                        "account": "^2.+$",
+                    },
+                ),
+                [
+                    _enrich_voucher_url,
+                    simple_enricher("account", "Kontonavn", account_name),
+                    simple_enricher("apar_id", "Leverandørnavn", contractor_name),
+                    simple_enricher("dim_1", "Koststedsnavn", cost_center_name),
+                    simple_enricher("dim_4", "Prosjektnavn", project_name),
+                ],
+            ),
             {
-                # Irrelevant rows
-                "_recno": "^1$",
-                # Balance accounts
-                "account": "^2.+$",
+                "Valutabeløp": "cur_amount",
+                "Valuta": "currency",
+                "Beskrivelse": "description",
+                "Koststed": "dim_1",
+                "Funksjon": "dim_2",
+                "AnleggRessursnummer": "dim_3",
+                "Prosjekt": "dim_4",
+                "SistOppdatert": "last_update",
+                "Periode": "period",
+                "Avgiftskode": "tax_code",
+                "Bilagsdato": "voucher_date",
+                "Bilagsnummer": "voucher_no",
+                "Bilagstype": "voucher_type",
+                "Bilagsurl": "voucher_url",
             },
         ),
-        [
-            _enrich_voucher_url,
-            simple_enricher("account", "account_name", account_name),
-            simple_enricher("apar_id", "apar_name", contractor_name),
-            simple_enricher("dim_1", "cost_center_name", cost_center_name),
-            simple_enricher("dim_4", "project_name", project_name),
-        ],
+        ["_recno"],
     )
 
 
@@ -78,21 +105,35 @@ def get_user_log_contractor_invoices():
 
 # Dataset `arbeidsflytkommentar-parkert`
 def get_workflow_comment_parked():
-    return get_results("81881")
+    return remove_columns(get_results("81881"), ["_recno"])
 
 
 # Dataset `budsjett-{year}`
 def get_budget(year):
-    return enrich_results(
-        filter_results(get_results_for_year("81882", year), {"_recno": "^1$"}),
-        [
-            simple_enricher("dim1", "account_name", account_name),
-            simple_enricher("dim2", "cost_center_name", cost_center_name),
-            simple_enricher("dim4", "project_name", project_name),
-        ],
+    return remove_columns(
+        rename_columns(
+            enrich_results(
+                filter_results(get_results_for_year("81882", year), {"_recno": "^1$"}),
+                [
+                    simple_enricher("dim1", "Kontonavn", account_name),
+                    simple_enricher("dim2", "Koststedsnavn", cost_center_name),
+                    simple_enricher("dim4", "Prosjektnavn", project_name),
+                ],
+            ),
+            {
+                "Konto": "dim1",
+                "Koststed": "dim2",
+                "Funksjon": "dim3",
+                "Prosjekt": "dim4",
+            },
+        ),
+        ["_recno"],
     )
 
 
 # Dataset `budsjett-beskrivelse-{year}`
 def get_budget_descriptions(year):
-    return filter_results(get_results_for_year("84600", year), {"_recno": "^1$"})
+    return remove_columns(
+        filter_results(get_results_for_year("84600", year), {"_recno": "^1$"}),
+        ["_recno"],
+    )

@@ -45,3 +45,28 @@ def simple_enricher(from_field, to_field, transformer):
         return row
 
     return _transformer
+
+
+def rename_columns(results, name_map):
+    """Rename the keys of every dict in `results` according to `name_map`.
+
+    `name_map` should be a dict on the form:
+    {
+      "new_name_1": "old_name_1",
+      "new_name_2": "old_name_2",
+      ...
+    }
+    """
+    for res in results:
+        for to_name, from_name in name_map.items():
+            res[to_name] = res[from_name]
+            del res[from_name]
+    return results
+
+
+def remove_columns(results, columns):
+    """Remove every key in `columns` from every dict in `results`"""
+    for res in results:
+        for col in columns:
+            del res[col]
+    return results
