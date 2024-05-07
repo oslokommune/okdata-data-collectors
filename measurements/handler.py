@@ -7,34 +7,28 @@ from aws_xray_sdk.core import patch_all, xray_recorder
 from okdata.aws import ssm
 from okdata.aws.logging import logging_wrapper
 
-from common import dataplatform, util
+from common import util
+from common.dataplatform import Dataplatform
+from measurements.config import MEASUREMENTS
 
 patch_all()
 logging.basicConfig()
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-MEASUREMENTS = {
-    "fdeYObXg1OpTh1XxXPJ4": "dataspeilet-antall-malinger-i-origo",
-    "iRznHuvBqx2ketpA8keT": "dataspeilet-etterlevelse-av-oppdateringshyppighet",
-    "j8go8Qn4kxh5K8hYj28K": "apen-by-bookede-kulturtimer",
-    "cUrgFSsuhFfjV09JAjDs": "apen-by-gjennomforte-kulturtimer",
-    "WLUA8Ww2Ln77Wzw1iKX2": "apen-by-frigjort-tid-sum",
-    "EXAlzduBQAKeU1iQlwOJ": "booking-antall-behandlede-bookinger",
-    "xtqPBCF3AFUVTcbZnGZy": "booking-antall-reservasjoner",
-    "4vLKHlxRpHmqqraKqfOa": "booking-antall-tilgjengelige-rom",
-    "5pcd00VtcF4uFmrJFlce": "booking-antall-tilgjengelige-steder",
-    "awh5Hjb0WDCdiKFIPl6g": "booking-antall-steder-med-aktivitet",
-    "XyVOGnUSxxG0Hy6kJSn8": "oslonokkelen-merapne-dorapninger",
-    "EwLUVHjX35kg0235RBSP": "oslonokkelen-brukerprofiler",
-    "tjVb3I8rMpPc6TGWrvDO": "oslonokkelen-steder-i-produksjon",
-    "E2q8pJVxLwN0AtnE2Yu4": "oslonokkelen-antall-steder-med-booking-integrasjon",
-}
-
 
 async def collect_measurements(measurements):
+    dataplatform = Dataplatform()
+
+    # Get existing datasets with the OKR tracker as source
+    logger.info("Fetching existing measurement datasets")
+    kpi_datasets = dataplatform.get_datasets(
+        was_derived_from_name="okr-tracker",
+    )
+    logger.info(f"Found {len(kpi_datasets)} existing dataset(s)")
+
     # Fetch values for all measurements
-    logger.info(f"Fetching data for {len(measurements)} measurements")
+    logger.info(f"Fetching data for {len(measurements)} measurement(s)")
     api_key = ssm.get_secret("/dataplatform/okr-tracker/api-key")
 
     async with ClientSession(
@@ -43,58 +37,114 @@ async def collect_measurements(measurements):
         raise_for_status=True,
     ) as session:
         kpis = await asyncio.gather(
-            *[fetch_measurement(session, kpi_id) for kpi_id in measurements.keys()]
+            *[fetch_measurement(session, kpi_id) for kpi_id in measurements]
         )
 
-    measurements_data = {measurement_id: values for measurement_id, values in kpis}
+    for kpi_id, kpi, kpi_values in kpis:
+        if kpi is None or kpi_values is None:
+            logger.warning(f"No data for measurement '{kpi_id}'; skipping import!")
+            continue
 
-    # Upload data to dataset
-    for measurement_id, dataset_id in measurements.items():
-        measurement_values = measurements_data[measurement_id]
+        kpi_id = kpi["id"]
+        matched_datasets = [
+            d for d in kpi_datasets if d.get("wasDerivedFrom", {}).get("id") == kpi_id
+        ]
 
-        if measurement_values is None:
-            logger.warning(
-                f"No data for measurement '{measurement_id}'; skipping import!"
+        if not matched_datasets and util.getenv("STAGE") == "dev":
+            # Skip import of additional datasets in dev.
+            logger.info(
+                f"Skipped creating missing dataset for measurement '{kpi_id}' in dev"
             )
             continue
 
+        dataset = (
+            matched_datasets[0]
+            if matched_datasets
+            else create_kpi_dataset(dataplatform, kpi)
+        )
+        dataset_id = dataset["Id"]
+
         logger.info(
-            f"Uploading {len(measurement_values)} measurement values for to dataset '{dataset_id}'"
+            f"Uploading {len(kpi_values)} measurement value(s) to dataset '{dataset_id}'"
         )
 
         csv_file = util.write_dict_to_csv(
             filename=Path("/") / "tmp" / f"{dataset_id}_values.csv",
-            data=measurement_values,
+            data=kpi_values,
             fieldnames=["date", "value", "comment"],
             extrasaction="ignore",
         )
 
-        dataplatform.upload_dataset(dataset_id, csv_file.name)
+        result = dataplatform.upload_dataset(dataset_id, csv_file.name)
+        logger.info(
+            f"Upload done, code={result['result']}, trace_id={result['trace_id']}"
+        )
 
 
-async def fetch_measurement(session, measurement_id):
+async def fetch_measurement(session, kpi_id):
     try:
-        async with session.get(f"/kpi/{measurement_id}/values") as response:
-            response_data = await response.json()
-            return (
-                measurement_id,
-                [
-                    {
-                        "date": v["date"],
-                        "value": v["value"],
-                        "comment": (v["comment"] or "").replace("\n", " "),
-                    }
-                    for v in response_data
-                ],
-            )
+        async with session.get(f"/kpi/{kpi_id}") as response:
+            data = await response.json()
+
+        kpi = {
+            "id": data["id"],
+            "name": data["name"],
+            "description": data["description"],
+            "parent_slug": data["parent"]["slug"] if data["parent"] else None,
+            "parent_name": data["parent"]["name"] if data["parent"] else None,
+        }
+
+        async with session.get(f"/kpi/{kpi_id}/values") as response:
+            data = await response.json()
+
+        kpi_values = [
+            {
+                "date": v["date"],
+                "value": v["value"],
+                "comment": (v["comment"] or "").replace("\n", " "),
+            }
+            for v in data
+        ]
+
+        return (kpi_id, kpi, kpi_values)
+
     except ClientResponseError as e:
         logger.error(
             "Error while fetching measurement `{}`: {}".format(
-                measurement_id,
+                kpi_id,
                 str(e),
             )
         )
-    return (measurement_id, None)
+    return (kpi_id, None, None)
+
+
+def create_kpi_dataset(dataplatform, kpi):
+    logger.info(f"Creating missing dataset for measurement '{kpi['id']}'")
+
+    dataset_title = (
+        f"{kpi['parent_name']} - {kpi['name']}" if kpi["parent_name"] else kpi["name"]
+    )
+    dataset_description = kpi["description"][0:2048] if kpi["description"] else ""
+    dataset_keywords = ["måling"]
+    if parent_slug := kpi["parent_slug"]:
+        dataset_keywords.append(parent_slug)
+
+    return dataplatform.create_dataset(
+        metadata={
+            "title": dataset_title[0:128],
+            "description": dataset_description,
+            "keywords": dataset_keywords,
+            "accessRights": "restricted",
+            "source": {"type": "file"},
+            "wasDerivedFrom": {"name": "okr-tracker", "id": kpi["id"]},
+            "contactPoint": {
+                "name": "Dataspeilet",
+                "email": "dataspeilet@oslo.kommune.no",
+            },
+            "publisher": "Oslo Origo",
+        },
+        pipeline="csv-to-delta",
+    )
 
 
 @logging_wrapper
