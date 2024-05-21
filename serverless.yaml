@@ -56,7 +56,7 @@ functions:
         - measurements.handler.import_data
     events:
       - schedule: cron(0 2 * * ? *)
-    timeout: 60
+    timeout: 120
     environment:
       OKR_TRACKER_API_BASE_URL: ${ssm:/dataplatform/okr-tracker/api-url}
   collect-better-uptime-monitors:
