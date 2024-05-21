@@ -95,12 +95,12 @@ def get_general_ledger(year):
 
 # Dataset `arbeidsflyt-levfakt-wf68`
 def get_workflow_contrator_invoices():
-    return get_results("81661")
+    return filter_results(get_results("88112"), {"_recno": "^1$"})
 
 
 # Dataset `brukerlog-levfakt-wF80`
 def get_user_log_contractor_invoices():
-    return get_results("81662")
+    return get_results("86289")
 
 
 # Dataset `arbeidsflytkommentar-parkert`
