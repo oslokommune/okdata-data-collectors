@@ -21,4 +21,11 @@ MEASUREMENTS = [
     "XyVOGnUSxxG0Hy6kJSn8",  # Oslonøkkelen: Meråpne døråpninger
     "EwLUVHjX35kg0235RBSP",  # Oslonøkkelen: Brukerprofiler
     "tjVb3I8rMpPc6TGWrvDO",  # Oslonøkkelen: Steder i produksjon
+    "A2ian2n5u1GkS8d0oqIc",  # Utviklingsopplevelser: Rapportert total nedetid (timer)
+    "D6o0k39NLzL4h6yOTfof",  # Utviklingsopplevelser: Code lead time (dager)
+    "ifqm9R9ekXeGYuTVmTop",  # Utviklingsopplevelser: Deployment frekvens
+    "xPpfAKInBSRPjM9kWPLk",  # Utviklingsopplevelser: Oppetid innbyggertjenester
+    "fPPLNsKcYqiQ4cjcQhS1",  # Barnehagetilgang: Frigjort tid for saksbehandlere
+    "hUuVNSh4E2FuFFZfc23e",  # Barnehagetilgang: Familietid
+    "il20jj0RQ4Vy8FWcyeUM",  # Helsedata i Oslo: Antall lukkede informasjonsbrudd med digitale løsninger
 ]
