@@ -1,4 +1,5 @@
 import csv
+import re
 from pathlib import Path
 
 import pytest
@@ -45,7 +46,7 @@ xray_recorder.begin_segment("Test")
                 },
                 {
                     "kpi_id": "6FW0s",
-                    "name": "Pyrokinesis success rate",
+                    "name": "Pyrokinesis success rate (percent)",
                     "description": "Main result indicator",
                     "parent": "Team Magikoopas",
                     "value_count": 0,
@@ -91,6 +92,9 @@ async def test_collect_measurements(
         assert source_kpi_id not in existing_mapping
         assert source_kpi_id in created_mapping
 
+        assert (
+            re.match(r"^[- a-zA-Z0-9åÅæÆøØ]+$", dataset_metadata["title"]) is not None
+        )
         assert len(dataset_metadata["title"]) <= 128
         assert len(dataset_metadata["description"]) <= 2048
 

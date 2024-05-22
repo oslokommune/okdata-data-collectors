@@ -124,14 +124,14 @@ def create_kpi_dataset(dataplatform, kpi):
     dataset_title = (
         f"{kpi['parent_name']} - {kpi['name']}" if kpi["parent_name"] else kpi["name"]
     )
-    dataset_description = kpi["description"][0:2048] if kpi["description"] else ""
+    dataset_description = kpi["description"] if kpi["description"] else ""
     dataset_keywords = ["måling"]
     if parent_slug := kpi["parent_slug"]:
         dataset_keywords.append(parent_slug)
 
     return dataplatform.create_dataset(
         metadata={
-            "title": dataset_title[0:128],
+            "title": dataset_title,
             "description": dataset_description,
             "keywords": dataset_keywords,
             "accessRights": "restricted",

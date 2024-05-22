@@ -1,4 +1,5 @@
 import logging
+import re
 from functools import cache
 
 from okdata.aws import ssm
@@ -40,6 +41,8 @@ class Dataplatform:
         return result.json()
 
     def create_dataset(self, metadata, pipeline=None):
+        metadata = _clean_dataset_metadata(metadata)
+
         logger.info(f"Creating dataset with title '{metadata['title']}'")
 
         dataset = self.dataset_client.create_dataset(data=metadata)
@@ -92,3 +95,16 @@ class Dataplatform:
 
 def upload_dataset(dataset_id, filename):
     return Dataplatform().upload_dataset(dataset_id, filename)
+
+
+def _clean_dataset_metadata(metadata):
+    metadata["title"] = re.sub(
+        r"[^- a-zA-Z0-9åÅæÆøØ]",
+        "",
+        metadata["title"],
+    )[0:128]
+
+    if "description" in metadata:
+        metadata["description"] = metadata["description"][0:2048]
+
+    return metadata
