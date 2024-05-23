@@ -4,6 +4,10 @@
 # is not found, it is created automatically.
 
 MEASUREMENTS = [
+    "kTZjTMHLezrPAI2V8stJ",  # Veiviser: Andel Tim-er som sier de vil ta i bruk tilbud, eller har tilbud fra før
+    "R1yLuMQxfHsi4QPmIJYq",  # Veiviser: Antall økter i helseveiviseren
+    "Ptcj7tEIzb6XsRtWLU5k",  # Veiviser: Digital søknad: Antall bydeler som har produktet
+    "MqZGuUyzNVD2a7RZETs1",  # Veiviser: Økter per måned (helseveiviser)
     "9rIyDSYXy6Bzm8SyXTmB",  # Dataspeilet: Andel aktive team i OKR-trackeren
     "fdeYObXg1OpTh1XxXPJ4",  # Dataspeilet: Antall målinger i Origo
     "iRznHuvBqx2ketpA8keT",  # Dataspeilet: Etterlevelse av oppdateringshyppighet
