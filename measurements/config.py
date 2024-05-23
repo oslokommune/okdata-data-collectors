@@ -15,16 +15,33 @@ MEASUREMENTS = [
     "uWo2Joe5oyx3Lkljibb3",  # Designsystem: Gjenbruk av komponenter i Figma
     "j8go8Qn4kxh5K8hYj28K",  # Åpen by: Bookede kulturtimer
     "cUrgFSsuhFfjV09JAjDs",  # Åpen by: Gjennomforte kulturtimer
+    "2ER9gvhGNr3kdyITw3pw",  # Booking: Frigjort tid - Bydelslokaler
+    "Z1ck1CB6alNRbZAGnqdH",  # Booking: Frigjort tid - Rådhuset
+    "VafouTdelkGdEXo9QyfL",  # Booking: Frigjort tid - Skoler
     "WLUA8Ww2Ln77Wzw1iKX2",  # Booking: Frigjort tid - Sum
     "EXAlzduBQAKeU1iQlwOJ",  # Booking: Antall behandlede bookinger
     "xtqPBCF3AFUVTcbZnGZy",  # Booking: Antall reservasjoner
     "awh5Hjb0WDCdiKFIPl6g",  # Booking: Antall steder med aktivitet
     "4vLKHlxRpHmqqraKqfOa",  # Booking: Antall tilgjengelige rom
     "5pcd00VtcF4uFmrJFlce",  # Booking: Antall tilgjengelige steder
+    "YE9eE4isuQTjWrEpxTKV",  # Booking: Antall behandlede vielser
+    "MhNI2zRSMyU7Q9zlzt6F",  # Booking: Antall godkjente vielser
+    "zS8LsqikcxhjycqH7Ejp",  # Booking: Selvbetjeningsgrad
+    "IFLzWadKIRUfZQKLB621",  # Oslonøkkelen: Antall dører i produksjon
     "E2q8pJVxLwN0AtnE2Yu4",  # Oslonøkkelen: Antall steder med booking-integrasjon
+    "obhtpxU6GW0OrMA1uImL",  # Oslonøkkelen: Totalt antall bookede døråpninger
     "XyVOGnUSxxG0Hy6kJSn8",  # Oslonøkkelen: Meråpne døråpninger
     "EwLUVHjX35kg0235RBSP",  # Oslonøkkelen: Brukerprofiler
     "tjVb3I8rMpPc6TGWrvDO",  # Oslonøkkelen: Steder i produksjon
+    "BnBRK5BaIQBtTsUhcRjf",  # Oslonøkkelen: Visninger av gjenbruksid
+    "2tzjsw1zUAJWcwvFzCla",  # Oslonøkkelen: Visninger av lånekort
+    "UAFQhP4TxOwcrLfFoElY",  # Oslonøkkelen: Spøkelsessteder
+    "ILdSWCMkDPFof5KXH5SE",  # Oslonøkkelen: Daglig besøk - Bydelslokaler
+    "MxMIwEU2SVKfCDkZdsSj",  # Oslonøkkelen: Daglig besøk - Farligavfall container
+    "zuDJS1WD5hEt0F7FyMs0",  # Oslonøkkelen: Daglig besøk - Gjenbruksstasjon
+    "Go8aPkANqs0ifHAR47qi",  # Oslonøkkelen: Daglig besøk - Minigjenbruksstasjon
+    "goEdXvLFK8cgRnVfVcr9",  # Oslonøkkelen: Daglige besøk - Bibliotek
+    "5w1j3nEjoICCXqAUuYdk",  # Oslonøkkelen: Daglige besøk - Hjelpemidler
     "A2ian2n5u1GkS8d0oqIc",  # Utviklingsopplevelser: Rapportert total nedetid (timer)
     "D6o0k39NLzL4h6yOTfof",  # Utviklingsopplevelser: Code lead time (dager)
     "ifqm9R9ekXeGYuTVmTop",  # Utviklingsopplevelser: Deployment frekvens
