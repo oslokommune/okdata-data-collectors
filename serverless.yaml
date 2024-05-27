@@ -37,17 +37,6 @@ provider:
     OKDATA_ENVIRONMENT: ${self:custom.okdataEnvironment.${self:provider.stage}, self:custom.okdataEnvironment.dev}
     OKDATA_CLIENT_ID: ${self:service}
 
-package:
-  patterns:
-    - '!**/*'
-    - agresso/*.py
-    - agresso/data/**
-    - better_uptime/*.py
-    - common/*.py
-    - measurements/*.py
-    - okdata_disruptive/*.py
-    - ssb/*.py
-
 functions:
   collect-measurements:
     image:
@@ -101,6 +90,16 @@ functions:
     timeout: 60
     environment:
       SSB_BASE_URL: "https://data.ssb.no/api/v0"
+  collect-statistikkbanken:
+    image:
+      name: okdata-data-collectors
+      command:
+        - statistikkbanken.handler.import_datasets
+    events:
+      - schedule: cron(0 2 * * ? *)
+    timeout: 120
+    environment:
+      STATISTIKKBANKEN_BASE_URL: "https://statistikkbanken.oslo.kommune.no:443/statbank/sq"
 
 plugins:
   - serverless-better-credentials # must be first
