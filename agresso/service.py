@@ -47,7 +47,7 @@ def get_general_ledger(year):
     def _enrich_voucher_url(row):
         row["voucher_url"] = (
             f"{getenv('AGRESSO_PDF_BASE_URL')}/{row['voucher_no']}"
-            if row["voucher_type"] == "EF"
+            if row["voucher_type"] in ["EF", "I2"]
             else ""
         )
         return row
