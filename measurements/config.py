@@ -29,6 +29,7 @@ MEASUREMENTS = [
     "zS8LsqikcxhjycqH7Ejp",  # Booking: Selvbetjeningsgrad
     "IFLzWadKIRUfZQKLB621",  # Oslonøkkelen: Antall dører i produksjon
     "E2q8pJVxLwN0AtnE2Yu4",  # Oslonøkkelen: Antall steder med booking-integrasjon
+    "4CCq3Svl6DHLpz91nqd9",  # Oslonøkkelen: Antall bookinger som er brukt i appen
     "obhtpxU6GW0OrMA1uImL",  # Oslonøkkelen: Totalt antall bookede døråpninger
     "XyVOGnUSxxG0Hy6kJSn8",  # Oslonøkkelen: Meråpne døråpninger
     "EwLUVHjX35kg0235RBSP",  # Oslonøkkelen: Brukerprofiler
