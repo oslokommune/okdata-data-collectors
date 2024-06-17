@@ -1,6 +1,7 @@
 FROM public.ecr.aws/lambda/python:3.11
 
 COPY agresso ${LAMBDA_TASK_ROOT}/agresso
+COPY barnehageregister ${LAMBDA_TASK_ROOT}/barnehageregister
 COPY better_uptime ${LAMBDA_TASK_ROOT}/better_uptime
 COPY common ${LAMBDA_TASK_ROOT}/common
 COPY measurements ${LAMBDA_TASK_ROOT}/measurements
