@@ -86,7 +86,7 @@ functions:
       command:
         - ssb.handlers.import_datasets
     events:
-      - schedule: cron(0 2 * * ? *)
+      - schedule: cron(0 2 ? * SUN *)
     timeout: 60
     environment:
       SSB_BASE_URL: "https://data.ssb.no/api/v0"
@@ -96,7 +96,7 @@ functions:
       command:
         - statistikkbanken.handler.import_datasets
     events:
-      - schedule: cron(0 2 * * ? *)
+      - schedule: cron(0 2 ? * SUN *)
     timeout: 120
     environment:
       STATISTIKKBANKEN_BASE_URL: "https://statistikkbanken.oslo.kommune.no:443/statbank/sq"
@@ -107,7 +107,7 @@ functions:
         - barnehageregister.handler.import_datasets
     events:
       # NBR is updated from BRREG between 01:00 and 02:00.
-      - schedule: cron(0 4 * * ? *)
+      - schedule: cron(0 4 ? * SUN *)
     timeout: 600
     environment:
       BARNEHAGEREGISTER_BASE_URL: "https://data-nbr.udir.no/v4"
