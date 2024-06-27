@@ -36,8 +36,6 @@ cryptography==42.0.5
     # via jwcrypto
 deprecation==2.1.0
     # via python-keycloak
-disruptive==1.6.5
-    # via okdata-data-collectors (setup.py)
 frozenlist==1.4.1
     # via
     #   aiohttp
@@ -73,8 +71,6 @@ pycparser==2.22
     # via cffi
 pydantic==1.10.14
     # via okdata-aws
-pyjwt==2.8.0
-    # via disruptive
 python-dateutil==2.8.2
     # via botocore
 python-keycloak==3.12.0
@@ -85,7 +81,6 @@ referencing==0.33.0
     #   jsonschema-specifications
 requests==2.32.0
     # via
-    #   disruptive
     #   okdata-aws
     #   okdata-data-collectors (setup.py)
     #   okdata-sdk

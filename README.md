@@ -6,7 +6,6 @@ The following sources are currently implemented:
 
 - `agresso`: Economy data from Agresso.
 - `better_uptime`: Service uptime data from Better Stack.
-- `disruptive`: Refrigerator sensor data from Disruptive.
 - `measurements`: Measurements (KPIs) from the OKR Tracker.
 
 ## Setup
