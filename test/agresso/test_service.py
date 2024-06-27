@@ -21,18 +21,7 @@ from agresso.service import (
     get_workflow_comment_parked,
     get_workflow_contrator_invoices,
 )
-
-
-def _is_csv_serializable(data):
-    """Return true if `data` is CSV serializable by our JSON->CSV pipeline.
-
-    In particular, check that all the dicts in `data` contain the same keys.
-    """
-    if len(data) == 0:
-        return True
-
-    keys = data[0].keys()
-    return all([keys == d.keys() for d in data[1:]])
+from test.util import is_csv_serializable
 
 
 @pytest.mark.skipif("AGRESSO_API_KEY" not in os.environ, reason="missing API key")
@@ -41,7 +30,7 @@ def test_get_general_ledger():
         api_key.return_value = os.environ["AGRESSO_API_KEY"]
         data = get_general_ledger(2024)
     assert isinstance(data, list)
-    assert _is_csv_serializable(data)
+    assert is_csv_serializable(data)
 
 
 @pytest.mark.skipif("AGRESSO_API_KEY" not in os.environ, reason="missing API key")
@@ -50,7 +39,7 @@ def test_get_workflow_contrator_invoices():
         api_key.return_value = os.environ["AGRESSO_API_KEY"]
         data = get_workflow_contrator_invoices()
     assert isinstance(data, list)
-    assert _is_csv_serializable(data)
+    assert is_csv_serializable(data)
 
 
 @pytest.mark.skipif("AGRESSO_API_KEY" not in os.environ, reason="missing API key")
@@ -59,7 +48,7 @@ def test_get_user_log_contrator_invoices():
         api_key.return_value = os.environ["AGRESSO_API_KEY"]
         data = get_user_log_contractor_invoices()
     assert isinstance(data, list)
-    assert _is_csv_serializable(data)
+    assert is_csv_serializable(data)
 
 
 @pytest.mark.skipif("AGRESSO_API_KEY" not in os.environ, reason="missing API key")
@@ -68,7 +57,7 @@ def test_get_workflow_comment_parked():
         api_key.return_value = os.environ["AGRESSO_API_KEY"]
         data = get_workflow_comment_parked()
     assert isinstance(data, list)
-    assert _is_csv_serializable(data)
+    assert is_csv_serializable(data)
 
 
 @pytest.mark.skipif("AGRESSO_API_KEY" not in os.environ, reason="missing API key")
@@ -77,7 +66,7 @@ def test_get_budget():
         api_key.return_value = os.environ["AGRESSO_API_KEY"]
         data = get_budget(2024)
     assert isinstance(data, list)
-    assert _is_csv_serializable(data)
+    assert is_csv_serializable(data)
 
 
 @pytest.mark.skipif("AGRESSO_API_KEY" not in os.environ, reason="missing API key")
@@ -86,7 +75,7 @@ def test_get_budget_descriptions():
         api_key.return_value = os.environ["AGRESSO_API_KEY"]
         data = get_budget_descriptions(2024)
     assert isinstance(data, list)
-    assert _is_csv_serializable(data)
+    assert is_csv_serializable(data)
 
 
 @pytest.mark.skipif("AGRESSO_API_KEY" not in os.environ, reason="missing API key")

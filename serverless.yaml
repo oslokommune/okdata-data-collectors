@@ -100,6 +100,17 @@ functions:
     timeout: 120
     environment:
       STATISTIKKBANKEN_BASE_URL: "https://statistikkbanken.oslo.kommune.no:443/statbank/sq"
+  collect-barnehageregister:
+    image:
+      name: okdata-data-collectors
+      command:
+        - barnehageregister.handler.import_datasets
+    events:
+      # NBR is updated from BRREG between 01:00 and 02:00.
+      - schedule: cron(0 4 * * ? *)
+    timeout: 600
+    environment:
+      BARNEHAGEREGISTER_BASE_URL: "https://data-nbr.udir.no/v4"
 
 plugins:
   - serverless-better-credentials # must be first
