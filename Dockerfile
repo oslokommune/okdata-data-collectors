@@ -5,7 +5,6 @@ COPY barnehageregister ${LAMBDA_TASK_ROOT}/barnehageregister
 COPY better_uptime ${LAMBDA_TASK_ROOT}/better_uptime
 COPY common ${LAMBDA_TASK_ROOT}/common
 COPY measurements ${LAMBDA_TASK_ROOT}/measurements
-COPY okdata_disruptive ${LAMBDA_TASK_ROOT}/okdata_disruptive
 COPY ssb ${LAMBDA_TASK_ROOT}/ssb
 COPY statistikkbanken ${LAMBDA_TASK_ROOT}/statistikkbanken
 COPY requirements.txt ${LAMBDA_TASK_ROOT}

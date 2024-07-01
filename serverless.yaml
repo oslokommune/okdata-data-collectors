@@ -69,17 +69,6 @@ functions:
     environment:
       AGRESSO_BASE_URL: "https://okonomi-query-engine.api.oslo.kommune.no"
       AGRESSO_PDF_BASE_URL: "https://origo.oslo.systems/agresso-pdf/voucher"
-  collect-disruptive:
-    image:
-      name: okdata-data-collectors
-      command:
-        - okdata_disruptive.handlers.import_data
-    events:
-      - schedule: cron(0 2 * * ? *)
-    timeout: 120
-    environment:
-      DISRUPTIVE_SERVICE_ACCOUNT_EMAIL: ${ssm:/dataplatform/disruptive/service-account-email}
-      DISRUPTIVE_SERVICE_ACCOUNT_KEY_ID: ${ssm:/dataplatform/disruptive/service-account-key-id}
   collect-ssb:
     image:
       name: okdata-data-collectors
