@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lambda/python:3.11
+FROM public.ecr.aws/lambda/python:3.12
 
 COPY agresso ${LAMBDA_TASK_ROOT}/agresso
 COPY barnehageregister ${LAMBDA_TASK_ROOT}/barnehageregister
