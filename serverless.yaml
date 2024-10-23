@@ -100,6 +100,17 @@ functions:
     timeout: 600
     environment:
       BARNEHAGEREGISTER_BASE_URL: "https://data-nbr.udir.no/v4"
+  collect-barnehagefakta:
+    image:
+      name: okdata-data-collectors
+      command:
+        - barnehagefakta.handler.import_datasets
+    events:
+      # Refresh data from Barnehagefakta only monthly.
+      - schedule: cron(0 2 1 * ? *)
+    timeout: 180
+    environment:
+      BARNEHAGEFAKTA_BASE_URL: "https://www.barnehagefakta.no/api"
 
 plugins:
   - serverless-better-credentials # must be first
