@@ -21,5 +21,5 @@ setup(
         "okdata-sdk>=3.3,<4",
         "requests",
     ],
-    python_requires=">=3.12",
+    python_requires=">=3.13",
 )
