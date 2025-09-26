@@ -19,9 +19,9 @@ DATASETS = [
         "query_id": "7e19154e-faa3-439c-83a8-0f5fddb8cd13",
     },
     {
-        "table_id": "BEF034",
-        "title": "Befolkningsframskrivingen for 2023-2050 etter kjønn og alder",
-        "query_id": "921f0a1e-b639-4a6d-b4f7-0519bec50135",
+        "table_id": "BEF035",
+        "title": "Befolkningsframskrivingen for 2025-2050 for alder 0-19 (D)",
+        "query_id": "1bb21a58-3f54-48d1-8c5a-1399f44a3647",
     },
     {
         "table_id": "HEL010",
