@@ -58,17 +58,17 @@ functions:
     timeout: 60
     environment:
       UPTIME_DATASET_ID: oppetid-tjenester-i-origo
-  collect-agresso:
-    image:
-      name: okdata-data-collectors
-      command:
-        - agresso.handlers.import_datasets
-    events:
-      - schedule: cron(0 2 * * ? *)
-    timeout: 600
-    environment:
-      AGRESSO_BASE_URL: "https://okonomi-query-engine.api.oslo.kommune.no"
-      AGRESSO_PDF_BASE_URL: "https://origo.oslo.systems/agresso-pdf/voucher"
+  # collect-agresso:
+  #   image:
+  #     name: okdata-data-collectors
+  #     command:
+  #       - agresso.handlers.import_datasets
+  #   events:
+  #     - schedule: cron(0 2 * * ? *)
+  #   timeout: 600
+  #   environment:
+  #     AGRESSO_BASE_URL: "https://okonomi-query-engine.api.oslo.kommune.no"
+  #     AGRESSO_PDF_BASE_URL: "https://origo.oslo.systems/agresso-pdf/voucher"
   collect-ssb:
     image:
       name: okdata-data-collectors
