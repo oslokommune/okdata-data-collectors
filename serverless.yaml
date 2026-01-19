@@ -69,16 +69,16 @@ functions:
   #   environment:
   #     AGRESSO_BASE_URL: "https://okonomi-query-engine.api.oslo.kommune.no"
   #     AGRESSO_PDF_BASE_URL: "https://origo.oslo.systems/agresso-pdf/voucher"
-  collect-ssb:
-    image:
-      name: okdata-data-collectors
-      command:
-        - ssb.handlers.import_datasets
-    events:
-      - schedule: cron(0 2 ? * SUN *)
-    timeout: 60
-    environment:
-      SSB_BASE_URL: "https://data.ssb.no/api/v0"
+  # collect-ssb:
+  #   image:
+  #     name: okdata-data-collectors
+  #     command:
+  #       - ssb.handlers.import_datasets
+  #   events:
+  #     - schedule: cron(0 2 ? * SUN *)
+  #   timeout: 60
+  #   environment:
+  #     SSB_BASE_URL: "https://data.ssb.no/api/v0"
   collect-statistikkbanken:
     image:
       name: okdata-data-collectors
