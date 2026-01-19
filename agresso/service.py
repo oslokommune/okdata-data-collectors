@@ -10,7 +10,6 @@ from agresso.service_helpers import (
 )
 from common.util import getenv
 
-
 ###
 # Helpers to fetch term descriptions from the Agresso API for enriching other
 # results. The values as cached to avoid hitting the API unnecessarily.
