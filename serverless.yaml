@@ -79,38 +79,38 @@ functions:
   #   timeout: 60
   #   environment:
   #     SSB_BASE_URL: "https://data.ssb.no/api/v0"
-  collect-statistikkbanken:
-    image:
-      name: okdata-data-collectors
-      command:
-        - statistikkbanken.handler.import_datasets
-    events:
-      - schedule: cron(0 2 ? * SUN *)
-    timeout: 120
-    environment:
-      STATISTIKKBANKEN_BASE_URL: "https://statistikkbanken.oslo.kommune.no:443/statbank/sq"
-  collect-barnehageregister:
-    image:
-      name: okdata-data-collectors
-      command:
-        - barnehageregister.handler.import_datasets
-    events:
-      # NBR is updated from BRREG between 01:00 and 02:00.
-      - schedule: cron(0 4 ? * SUN *)
-    timeout: 600
-    environment:
-      BARNEHAGEREGISTER_BASE_URL: "https://data-nbr.udir.no/v4"
-  collect-barnehagefakta:
-    image:
-      name: okdata-data-collectors
-      command:
-        - barnehagefakta.handler.import_datasets
-    events:
-      # Refresh data from Barnehagefakta only monthly.
-      - schedule: cron(0 2 1 * ? *)
-    timeout: 180
-    environment:
-      BARNEHAGEFAKTA_BASE_URL: "https://www.barnehagefakta.no/api"
+  # collect-statistikkbanken:
+  #   image:
+  #     name: okdata-data-collectors
+  #     command:
+  #       - statistikkbanken.handler.import_datasets
+  #   events:
+  #     - schedule: cron(0 2 ? * SUN *)
+  #   timeout: 120
+  #   environment:
+  #     STATISTIKKBANKEN_BASE_URL: "https://statistikkbanken.oslo.kommune.no:443/statbank/sq"
+  # collect-barnehageregister:
+  #   image:
+  #     name: okdata-data-collectors
+  #     command:
+  #       - barnehageregister.handler.import_datasets
+  #   events:
+  #     # NBR is updated from BRREG between 01:00 and 02:00.
+  #     - schedule: cron(0 4 ? * SUN *)
+  #   timeout: 600
+  #   environment:
+  #     BARNEHAGEREGISTER_BASE_URL: "https://data-nbr.udir.no/v4"
+  # collect-barnehagefakta:
+  #   image:
+  #     name: okdata-data-collectors
+  #     command:
+  #       - barnehagefakta.handler.import_datasets
+  #   events:
+  #     # Refresh data from Barnehagefakta only monthly.
+  #     - schedule: cron(0 2 1 * ? *)
+  #   timeout: 180
+  #   environment:
+  #     BARNEHAGEFAKTA_BASE_URL: "https://www.barnehagefakta.no/api"
 
 plugins:
   - serverless-better-credentials # must be first
