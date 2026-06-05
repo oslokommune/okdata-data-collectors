@@ -17,7 +17,7 @@ setup(
         "aiohttp>=3.9,<4",
         "aws-xray-sdk",
         "boto3",
-        "okdata-aws>=5,<6",
+        "okdata-aws",
         "okdata-sdk>=3.3,<4",
         "requests",
     ],
